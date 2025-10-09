@@ -1,7 +1,7 @@
 import type { Note } from "../types/Note";
 
-// Notes for the first range
-export const firstRangeNotes: { [key: string]: Note } = {
+// Notes for the first range (G key)
+export const firstRangeNotesG: { [key: string]: Note } = {
   C4: {
     name: "C4",
     noteType: "Do",
@@ -53,8 +53,8 @@ export const firstRangeNotes: { [key: string]: Note } = {
   },
 };
 
-// Notes for the 2 first ranges
-export const secondRangeNotes: { [key: string]: Note } = {
+// Notes for the 2 first ranges (G key )
+export const secondRangeNotesG: { [key: string]: Note } = {
   C5: {
     name: "C5",
     noteType: "Do",
@@ -100,11 +100,11 @@ export const secondRangeNotes: { [key: string]: Note } = {
     position: 0.1,
     shiftLinePosition: 0,
   },
-  ...firstRangeNotes,
+  ...firstRangeNotesG,
 };
 
-// Notes for the 3 ranges
-export const thirdRangeNotes: { [key: string]: Note } = {
+// Notes for the 3 ranges (G key)
+export const thirdRangeNotesG: { [key: string]: Note } = {
   E5: {
     name: "E5",
     noteType: "Mi",
@@ -119,7 +119,7 @@ export const thirdRangeNotes: { [key: string]: Note } = {
     shiftLinePosition: 10,
     lines: { above1: true, above2: true, above3: false },
   },
-  ...secondRangeNotes,
+  ...secondRangeNotesG,
   Si2: {
     name: "B2",
     noteType: "Si",
@@ -150,16 +150,72 @@ export const thirdRangeNotes: { [key: string]: Note } = {
   },
 };
 
-export const getRangeNotes = (nbRange: number): { [key: string]: Note } => {
+// Notes for the first range (F key)
+export const firstRangeNotesF: { [key: string]: Note } = {
+  C2: {
+    name: "C2",
+    noteType: "Do",
+    position: -20,
+    shiftLinePosition: 40,
+    lines: { above1: true },
+  },
+  B1: {
+    name: "B1",
+    noteType: "Si",
+    position: -15,
+    shiftLinePosition: 0,
+  },
+  A1: {
+    name: "A1",
+    noteType: "La",
+    position: -11,
+    shiftLinePosition: 0,
+  },
+  G1: {
+    name: "G1",
+    noteType: "Sol",
+    position: -5,
+    shiftLinePosition: 0,
+  },
+  F1: {
+    name: "F1",
+    noteType: "Fa",
+    position: 0.1,
+    shiftLinePosition: 0,
+  },
+  E1: {
+    name: "E1",
+    noteType: "Mi",
+    position: 5,
+    shiftLinePosition: 0,
+  },
+  D1: {
+    name: "D1",
+    noteType: "Re",
+    position: 10,
+    shiftLinePosition: 0,
+  },
+  C1: {
+    name: "C1",
+    noteType: "Do",
+    position: 15,
+    shiftLinePosition: 0,
+  },
+};
+
+export const getRangeNotes = (
+  nbRange: number,
+  key: string = "G"
+): { [key: string]: Note } => {
   switch (nbRange) {
     case 1:
-      return firstRangeNotes;
+      return firstRangeNotesG;
     case 2:
-      return secondRangeNotes;
+      return secondRangeNotesG;
     case 3:
-      return thirdRangeNotes;
+      return thirdRangeNotesG;
     default:
-      return thirdRangeNotes;
+      return thirdRangeNotesG;
   }
 };
 
@@ -167,13 +223,13 @@ export const getRangeNotes = (nbRange: number): { [key: string]: Note } => {
 export const getRandomNote = (nbRange: number): Note => {
   switch (nbRange) {
     case 1:
-      return getRandomFromSet(firstRangeNotes);
+      return getRandomFromSet(firstRangeNotesG);
     case 2:
-      return getRandomFromSet(secondRangeNotes);
+      return getRandomFromSet(secondRangeNotesG);
     case 3:
-      return getRandomFromSet(thirdRangeNotes);
+      return getRandomFromSet(thirdRangeNotesG);
     default:
-      return getRandomFromSet(thirdRangeNotes);
+      return getRandomFromSet(thirdRangeNotesG);
   }
 };
 

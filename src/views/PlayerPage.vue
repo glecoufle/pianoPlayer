@@ -3,13 +3,18 @@
     <ion-header :translucent="true" class="transparent-header">
       <ion-toolbar color="clear">
         <ion-buttons slot="start">
-          <ion-back-button default-href="/home" class="transparent-back-button">
-          </ion-back-button>
+          <ion-button
+            size="large"
+            class="transparent-color-button"
+            style="margin-left: 45px"
+            @click="navigateToHome"
+            >Back</ion-button
+          >
 
           <ion-button
             size="large"
             class="transparent-color-button"
-            style="margin-left: 250px"
+            style="margin-left: 200px"
             @click="play"
             >Play</ion-button
           >
@@ -41,6 +46,7 @@
             ref="partitionRef"
             :colorize="colorizeNote"
             :nbRange="nbRange"
+            :key="key"
           />
         </div>
 
@@ -61,28 +67,42 @@ import {
   IonToolbar,
   IonContent,
   IonButtons,
-  IonBackButton,
   IonButton,
 } from "@ionic/vue";
 import PartitionComponent from "@/components/PartitionComponent.vue";
 import PianoComponent from "@/components/PianoComponent.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const partitionRef = ref<InstanceType<typeof PartitionComponent>>();
 
 const colorizeNote = ref<boolean>(false);
 const nbRange = ref<number>(3);
+const key = ref<string>("G"); // Default key is G
 
 // Load nbRange from localStorage
 const loadSettings = () => {
   const savedRange = localStorage.getItem("piano-octave-range");
   if (savedRange) {
+    console.log("savedRange from localStorage:", savedRange);
     nbRange.value = parseInt(savedRange, 10);
+  }
+
+  const savedKey = localStorage.getItem("piano-key");
+  console.log("savedKey from localStorage:", savedKey);
+  if (savedKey) {
+    key.value = savedKey;
   }
 };
 
 // Listen for settings updates
 const handleSettingsUpdate = () => {
   loadSettings();
+};
+
+const navigateToHome = () => {
+  router.push("/home");
 };
 
 const play = () => {
@@ -174,27 +194,10 @@ onUnmounted(() => {
   --color: #333;
 }
 
-.transparent-back-button {
-  --color: #333;
-  --background: rgba(255, 255, 255, 0.9);
-  --border-radius: 50%;
-  backdrop-filter: blur(10px);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  padding: 2px;
-  position: fixed;
-
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
 .transparent-color-button {
   font-size: x-large;
   color: #ff0000;
   --color: #ff0000;
-  --background: rgba(255, 255, 255, 0.9);
-  --border-radius: 50%;
   backdrop-filter: blur(10px);
   border-radius: 50%;
   width: 100px;

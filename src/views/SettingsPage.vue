@@ -18,16 +18,9 @@
           </ion-card-header>
           <ion-card-content>
             <ion-item>
-              <ion-label>Volume</ion-label>
-              <ion-range :min="0" :max="100" :value="50" :pin="true">
-                <ion-icon name="volume-low" slot="start"></ion-icon>
-                <ion-icon name="volume-high" slot="end"></ion-icon>
-              </ion-range>
-            </ion-item>
-
-            <ion-item>
               <ion-label>Octave</ion-label>
               <ion-select
+                interface="action-sheet"
                 v-model="selectedRange"
                 placeholder="Select octave"
                 @ionChange="saveRange($event.detail.value)"
@@ -37,63 +30,28 @@
                 <ion-select-option value="3">3</ion-select-option>
               </ion-select>
             </ion-item>
-
-            <ion-item>
-              <ion-checkbox slot="start"></ion-checkbox>
-              <ion-label>Show note names</ion-label>
-            </ion-item>
           </ion-card-content>
-        </ion-card>
 
-        <!-- Configure keyboard shortcuts -->
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>Keyboard Shortcuts</ion-card-title>
-            <ion-card-subtitle
-              >Customize the keys for each note</ion-card-subtitle
-            >
-          </ion-card-header>
           <ion-card-content>
-            <div class="keyboard-config">
-              <ion-item
-                v-for="note in notes"
-                :key="note"
-                class="key-binding-item"
+            <ion-item>
+              <ion-label>Key</ion-label>
+              <ion-select
+                interface="action-sheet"
+                v-model="selectedKey"
+                placeholder="Select key"
+                @ionChange="saveKey($event.detail.value)"
               >
-                <ion-label>{{ note }}</ion-label>
-                <ion-input
-                  v-model="keyBindings[getKeyForNote(note)]"
-                  @ionInput="updateKeyBinding(note, $event)"
-                  @keydown.prevent="captureKey(note, $event)"
-                  :placeholder="'Touch for ' + note"
-                  readonly
-                  class="key-input"
-                ></ion-input>
-                <ion-button
-                  fill="clear"
-                  @click="resetKeyBinding(note)"
-                  slot="end"
-                  size="small"
+                <ion-select-option value="G" class="key-option"
+                  >𝄞</ion-select-option
                 >
-                  <ion-icon name="reset"></ion-icon>
-                </ion-button>
-              </ion-item>
-            </div>
-
-            <div class="button-group">
-              <ion-button
-                expand="block"
-                @click="resetAllKeys"
-                color="secondary"
-              >
-                <ion-icon name="reset" slot="start"></ion-icon>
-                Reinit all keys
-              </ion-button>
-              <ion-button expand="block" @click="saveSettings" color="primary">
-                <ion-icon name="save" slot="start"></ion-icon>
-                Save Settings
-              </ion-button>
-            </div>
+                <ion-select-option value="F" class="key-option"
+                  >𝄢</ion-select-option
+                >
+                <ion-select-option value="E" class="key-option"
+                  >𝄡</ion-select-option
+                >
+              </ion-select>
+            </ion-item>
           </ion-card-content>
         </ion-card>
       </div>
@@ -131,6 +89,7 @@ import {
 // Notes for the piano
 const notes = ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
 const selectedRange = ref(3);
+const selectedKey = ref("G");
 
 // Default key bindings
 const defaultKeyBindings = {
@@ -155,7 +114,16 @@ const saveRange = (range: number) => {
   window.dispatchEvent(new CustomEvent("piano-settings-updated"));
 };
 
-// Charger la configuration
+// save the selected key
+const saveKey = (keyValue: string) => {
+  console.log("key selected:", keyValue);
+  selectedKey.value = keyValue;
+  localStorage.setItem("piano-key", keyValue);
+  // Trigger an event for the PlayerPage to reload the config
+  window.dispatchEvent(new CustomEvent("piano-settings-updated"));
+};
+
+// Set the configuration
 const loadSettings = () => {
   const saved = localStorage.getItem("piano-key-bindings");
   if (saved) {
@@ -188,7 +156,7 @@ const getKeyForNote = (note: string): string => {
   return keyValues.value[note] || "";
 };
 
-// Capture a new key
+// Get a new key
 const captureKey = (note: string, event: KeyboardEvent) => {
   event.preventDefault();
   const newKey = event.key.toLowerCase();
@@ -229,7 +197,7 @@ const resetKeyBinding = (note: string) => {
     );
     if (oldKey) delete keyBindings.value[oldKey];
 
-    // Supprimer si la touche par défaut était assignée ailleurs
+    // Delete if the default key was assigned elsewhere
     if (keyBindings.value[defaultKey]) {
       delete keyBindings.value[defaultKey];
     }
@@ -298,5 +266,10 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.key-option {
+  font-size: 36px;
+  text-align: center;
 }
 </style>

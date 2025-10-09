@@ -4,7 +4,8 @@
       <ion-card-content>
         <div class="staff">
           <!-- Display the key -->
-          <div class="treble-clef">𝄞</div>
+          <div v-if="keyValue === 'F'" class="treble-clef FKey">𝄢</div>
+          <div v-else class="treble-clef GKey">𝄞</div>
 
           <!-- Staff OF 5 lines   -->
           <div class="staff-lines">
@@ -126,6 +127,10 @@ const props = defineProps({
     type: Number,
     default: 3,
   },
+  keyValue: {
+    type: String,
+    default: "G",
+  },
 });
 
 const allNotes = computed(() => getRangeNotes(props.nbRange));
@@ -243,7 +248,7 @@ const stopAnimation = () => {
 // Function for displaying all notes
 const displayAllNotes = () => {
   const allNotesValue = allNotes.value;
-  const allNoteNames = Object.keys(allNotesValue);
+  const allNoteNames = Object.keys(allNotesValue).reverse();
   let noteId = 0;
 
   // Erase current notes
@@ -325,7 +330,12 @@ const handleNotePlayedWrapper = (event: Event) => {
 
 // Lifecycle hooks
 onMounted(async () => {
-  console.log("Partition component mounted with nbRange:", props.nbRange);
+  console.log(
+    "Partition component mounted with nbRange: " +
+      props.nbRange +
+      ", key: " +
+      props.keyValue
+  );
 
   // Test audio pour vérifier que ça marche
   // setTimeout(() => {
@@ -393,12 +403,19 @@ defineExpose({
 .treble-clef {
   position: absolute;
   left: 8px;
-  top: 58px;
   font-size: 60px;
   color: #333;
   font-weight: bold;
   line-height: 1;
   transform: translateY(-10px);
+}
+
+.GKey {
+  top: 58px;
+}
+
+.FKey {
+  top: 58px;
 }
 
 /* added lines for notes above/below the staff */
