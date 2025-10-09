@@ -76,18 +76,11 @@ import {
   IonCardContent,
   IonItem,
   IonLabel,
-  IonRange,
-  IonIcon,
   IonSelect,
   IonSelectOption,
-  IonCheckbox,
-  IonInput,
-  IonButton,
-  alertController,
 } from "@ionic/vue";
 
 // Notes for the piano
-const notes = ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
 const selectedRange = ref(3);
 const selectedKey = ref("G");
 
@@ -149,89 +142,6 @@ const updateKeyValues = () => {
   for (const [key, note] of Object.entries(keyBindings.value)) {
     keyValues.value[note] = key.toUpperCase();
   }
-};
-
-// Get the key for a note
-const getKeyForNote = (note: string): string => {
-  return keyValues.value[note] || "";
-};
-
-// Get a new key
-const captureKey = (note: string, event: KeyboardEvent) => {
-  event.preventDefault();
-  const newKey = event.key.toLowerCase();
-
-  if (newKey === "escape" || newKey === "enter") return;
-
-  // Remove the old association
-  const oldKey = Object.keys(keyBindings.value).find(
-    (k) => keyBindings.value[k] === note
-  );
-  if (oldKey) delete keyBindings.value[oldKey];
-
-  // Remove if the new key was already assigned
-  if (keyBindings.value[newKey]) {
-    delete keyBindings.value[newKey];
-  }
-
-  // Add the new association
-  keyBindings.value[newKey] = note;
-  updateKeyValues();
-};
-
-// Update a key binding
-const updateKeyBinding = (note: string, event: any) => {
-  console.log("Update key binding called" + note + event);
-  // This function is called by ionInput but we use keydown instead
-};
-
-// Reset a key binding
-const resetKeyBinding = (note: string) => {
-  const defaultKey = Object.keys(defaultKeyBindings).find(
-    (k) => defaultKeyBindings[k as keyof typeof defaultKeyBindings] === note
-  );
-  if (defaultKey) {
-    // Remove the old association
-    const oldKey = Object.keys(keyBindings.value).find(
-      (k) => keyBindings.value[k] === note
-    );
-    if (oldKey) delete keyBindings.value[oldKey];
-
-    // Delete if the default key was assigned elsewhere
-    if (keyBindings.value[defaultKey]) {
-      delete keyBindings.value[defaultKey];
-    }
-
-    keyBindings.value[defaultKey] = note;
-    updateKeyValues();
-  }
-};
-
-// Reset all key bindings
-const resetAllKeys = async () => {
-  const alert = await alertController.create({
-    header: "Confirmation",
-    message: "Do you really want to reset all key bindings?",
-    buttons: [
-      "Cancel",
-      {
-        text: "Confirm",
-        handler: () => {
-          keyBindings.value = { ...defaultKeyBindings };
-          updateKeyValues();
-        },
-      },
-    ],
-  });
-  await alert.present();
-};
-
-// Save settings
-const saveSettings = () => {
-  localStorage.setItem("piano-key-bindings", JSON.stringify(keyBindings.value));
-
-  // Trigger an event for the piano to reload the config
-  window.dispatchEvent(new CustomEvent("piano-settings-updated"));
 };
 
 // Load settings on mount

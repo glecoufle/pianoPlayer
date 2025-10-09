@@ -207,6 +207,8 @@ export const getRangeNotes = (
   nbRange: number,
   key: string = "G"
 ): { [key: string]: Note } => {
+  console.log("Key selected:", key);
+
   switch (nbRange) {
     case 1:
       return firstRangeNotesG;
