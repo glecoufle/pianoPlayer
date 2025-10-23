@@ -3,8 +3,8 @@ export class ToneService {
   private oscillator: OscillatorNode | null = null;
 
   playFrequency(frequency: number) {
-    this.audioCtx = new (window.AudioContext ||
-      (window as any).webkitAudioContext)();
+    this.audioCtx = new (globalThis.AudioContext ||
+      (globalThis as any).webkitAudioContext)();
     this.oscillator = this.audioCtx.createOscillator();
     this.oscillator.type = "sine";
     this.oscillator.frequency.setValueAtTime(

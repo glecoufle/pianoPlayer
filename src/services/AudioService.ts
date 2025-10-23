@@ -5,8 +5,8 @@ export class AudioService {
   public isWavSupported: boolean = true;
 
   constructor(isWavSupported: boolean) {
-    this.audioContext = new (window.AudioContext ||
-      (window as any).webkitAudioContext)();
+    this.audioContext = new (globalThis.AudioContext ||
+      (globalThis as any).webkitAudioContext)();
     this.isWavSupported = isWavSupported;
   }
 
@@ -47,22 +47,22 @@ export class AudioService {
 
   private readonly noteToFrequency: { [key: string]: number } = {
     F2: 87.31, // Fa Grave
-    G2: 98.0, // Sol Grave
-    A2: 110.0, // La Grave
+    G2: 98, // Sol Grave
+    A2: 110, // La Grave
     B2: 123.47, // Si Grave
     C3: 130.81, // Do Grave
     D3: 146.83, // Ré Grave
     E3: 164.81, // Mi Grave
     F3: 174.61, // Fa Grave
-    G3: 196.0, // Sol Grave
-    A3: 220.0, // La Grave
+    G3: 196, // Sol Grave
+    A3: 220, // La Grave
     B3: 246.94, // Si Grave
     C4: 261.63, // Do Medium
     D4: 293.66, // Ré Medium
     E4: 329.63, // Mi Medium
     F4: 349.23, // Fa Medium
-    G4: 392.0, // Sol Medium
-    A4: 440.0, // La Medium
+    G4: 392, // Sol Medium
+    A4: 440, // La Medium
     B4: 493.88, // Si Medium
     C5: 523.25, // Do Aigu
     D5: 587.33, // Ré Aigu
@@ -262,9 +262,9 @@ export class AudioService {
   };
   // Stop all active oscillators
   stopAllTones = () => {
-    Object.keys(this.activeOscillators).forEach((noteName) => {
+    for (const noteName of Object.keys(this.activeOscillators)) {
       this.stopTone(noteName);
-    });
+    }
   };
 
   // Méthode de test pour vérifier que l'audio fonctionne

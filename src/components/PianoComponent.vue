@@ -108,7 +108,9 @@ const playNote = (noteName: string) => {
     // Emit event to parent component
     emit("note-played", noteName);
     // Trigger an event for the PlayerPage to reload the config
-    window.dispatchEvent(new CustomEvent("note-played", { detail: noteName }));
+    globalThis.dispatchEvent(
+      new CustomEvent("note-played", { detail: noteName })
+    );
   }
 };
 
@@ -150,16 +152,19 @@ const handleSettingsUpdate = () => {
 // Lifecycle hooks to add/remove event listeners
 onMounted(() => {
   loadKeyBindings();
-  window.addEventListener("keydown", handleKeyDown);
-  window.addEventListener("keyup", handleKeyUp);
-  window.addEventListener("piano-settings-updated", handleSettingsUpdate);
+  globalThis.addEventListener("keydown", handleKeyDown);
+  globalThis.addEventListener("keyup", handleKeyUp);
+  globalThis.addEventListener("piano-settings-updated", handleSettingsUpdate);
 });
 
 onUnmounted(() => {
   // Clean up event listeners
-  window.removeEventListener("keydown", handleKeyDown);
-  window.removeEventListener("keyup", handleKeyUp);
-  window.removeEventListener("piano-settings-updated", handleSettingsUpdate);
+  globalThis.removeEventListener("keydown", handleKeyDown);
+  globalThis.removeEventListener("keyup", handleKeyUp);
+  globalThis.removeEventListener(
+    "piano-settings-updated",
+    handleSettingsUpdate
+  );
 });
 
 // Expose functions for parent component

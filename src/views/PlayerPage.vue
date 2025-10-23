@@ -46,7 +46,8 @@
             ref="partitionRef"
             :colorize="colorizeNote"
             :nbRange="nbRange"
-            :key="key"
+            :theKey="key"
+            :key="`partition-${key}-${nbRange}`"
           />
         </div>
 

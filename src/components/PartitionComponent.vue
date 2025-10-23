@@ -3,8 +3,9 @@
     <ion-card>
       <ion-card-content>
         <div class="staff">
-          <!-- Display the key -->
-          <div v-if="keyValue === 'F'" class="treble-clef FKey">𝄢</div>
+          <!-- Display the key {{ theKey }}  -->
+          <div v-if="theKey === 'F'" class="treble-clef FKey">𝄢</div>
+          <div v-else-if="theKey === 'E'" class="treble-clef EKey">𝄡</div>
           <div v-else class="treble-clef GKey">𝄞</div>
 
           <!-- Staff OF 5 lines   -->
@@ -117,6 +118,7 @@ import { IonCard, IonCardContent } from "@ionic/vue";
 import type { AnimatedNote } from "../types";
 import { getRangeNotes, getRandomNote, getColorNote } from "../data/allNotes";
 import { AudioService } from "../services/AudioService";
+import { key } from "ionicons/icons";
 
 const props = defineProps({
   colorize: {
@@ -127,9 +129,13 @@ const props = defineProps({
     type: Number,
     default: 3,
   },
-  keyValue: {
+  theKey: {
     type: String,
     default: "G",
+  },
+  key: {
+    type: String,
+    default: "",
   },
 });
 
@@ -208,14 +214,15 @@ const animateNotes = () => {
     speedAnimation.value = 5;
   }
 
-  animatedNotes.value.forEach((note, index) => {
+  for (let index = 0; index < animatedNotes.value.length; index++) {
+    const note = animatedNotes.value[index];
     note.x -= speedAnimation.value; // Speed of movement (1px per frame)
 
     // Remove notes that have passed the treble clef (except the highlighted note)
     if (note.x <= clefPosition + 5 && note.id !== highlightedNote.value?.id) {
       animatedNotes.value.splice(index, 1);
     }
-  });
+  }
 
   // Add a new note periodically (respecting the 50px spacing)
   const shouldAddNote =
@@ -334,7 +341,7 @@ onMounted(async () => {
     "Partition component mounted with nbRange: " +
       props.nbRange +
       ", key: " +
-      props.keyValue
+      props.theKey
   );
 
   // Test audio pour vérifier que ça marche
@@ -346,7 +353,7 @@ onMounted(async () => {
   // Les sons de fréquence n'ont pas besoin d'être préchargés
   console.log("Service audio initialisé en mode fréquence");
 
-  window.addEventListener("note-played", handleNotePlayedWrapper);
+  globalThis.addEventListener("note-played", handleNotePlayedWrapper);
   startAnimation(); // Start the animation
 });
 
@@ -354,7 +361,7 @@ onUnmounted(() => {
   console.log("Partition component unmounted");
   stopAnimation();
   audioService.stopAll(); // Arrêter le service audio
-  window.removeEventListener("note-played", handleNotePlayedWrapper);
+  globalThis.removeEventListener("note-played", handleNotePlayedWrapper);
 });
 
 // Expose the methods to the parent component
@@ -415,9 +422,12 @@ defineExpose({
 }
 
 .FKey {
-  top: 58px;
+  top: 63px;
 }
 
+.EKey {
+  top: 61px;
+}
 /* added lines for notes above/below the staff */
 .lineAdded {
   position: fixed;

@@ -104,7 +104,7 @@ const saveRange = (range: number) => {
   selectedRange.value = range;
   localStorage.setItem("piano-octave-range", range.toString());
   // Trigger an event for the PlayerPage to reload the config
-  window.dispatchEvent(new CustomEvent("piano-settings-updated"));
+  globalThis.dispatchEvent(new CustomEvent("piano-settings-updated"));
 };
 
 // save the selected key
@@ -113,7 +113,7 @@ const saveKey = (keyValue: string) => {
   selectedKey.value = keyValue;
   localStorage.setItem("piano-key", keyValue);
   // Trigger an event for the PlayerPage to reload the config
-  window.dispatchEvent(new CustomEvent("piano-settings-updated"));
+  globalThis.dispatchEvent(new CustomEvent("piano-settings-updated"));
 };
 
 // Set the configuration
@@ -130,7 +130,13 @@ const loadSettings = () => {
   // Load saved range
   const savedRange = localStorage.getItem("piano-octave-range");
   if (savedRange) {
-    selectedRange.value = parseInt(savedRange, 10);
+    selectedRange.value = Number.parseInt(savedRange, 10);
+  }
+
+  // Load saved key
+  const savedKey = localStorage.getItem("piano-key");
+  if (savedKey) {
+    selectedKey.value = savedKey;
   }
 
   updateKeyValues();
