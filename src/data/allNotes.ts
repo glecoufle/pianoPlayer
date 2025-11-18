@@ -515,13 +515,12 @@ export const getRandomNote = (nbRange: number, key: string): Note => {
       return getRandomFromSet(secondRangeNotesF);
     case "F3":
       return getRandomFromSet(thirdRangeNotesF);
-    case "E1":
-      return getRandomFromSet(firstRangeNotesG);
-    case "E2":
-      return getRandomFromSet(secondRangeNotesG);
-    case "E3":
-      return getRandomFromSet(thirdRangeNotesG);
-
+    case "C1":
+      return getRandomFromSet(firstRangeNotesC);
+    case "C2":
+      return getRandomFromSet(secondRangeNotesC);
+    case "C3":
+      return getRandomFromSet(thirdRangeNotesC);
     default:
       return getRandomFromSet(thirdRangeNotesG);
   }
