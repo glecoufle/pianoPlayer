@@ -47,7 +47,7 @@
                 <ion-select-option value="F" class="key-option"
                   >𝄢</ion-select-option
                 >
-                <ion-select-option value="E" class="key-option"
+                <ion-select-option value="C" class="key-option"
                   >𝄡</ion-select-option
                 >
               </ion-select>

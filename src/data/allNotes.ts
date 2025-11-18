@@ -1,5 +1,13 @@
 import type { Note } from "../types/Note";
 
+/* Note for the G key:
+  positions are calculated based on a staff with 5 lines,
+   where each line and space represents a specific pitch.
+   The position values indicate the vertical placement of the notes on the staff.
+   Positive values indicate positions below the staff, while negative values indicate positions above the staff.
+   The shiftLinePosition is used to adjust the note's position when ledger lines are needed.
+*/
+
 // Notes for the first range (G key)
 export const firstRangeNotesG: { [key: string]: Note } = {
   C4: {
@@ -8,14 +16,14 @@ export const firstRangeNotesG: { [key: string]: Note } = {
     position: 5,
     shiftLinePosition: 0,
   },
-  B3: {
-    name: "B3",
+  B4: {
+    name: "B4",
     noteType: "Si",
     position: 10,
     shiftLinePosition: 0,
   },
-  A3: {
-    name: "A3",
+  A4: {
+    name: "A4",
     noteType: "La",
     position: 15,
     shiftLinePosition: 0,
@@ -62,15 +70,15 @@ export const secondRangeNotesG: { [key: string]: Note } = {
     shiftLinePosition: 20,
     lines: { above1: true, above2: true },
   },
-  B4: {
-    name: "B4",
+  B5: {
+    name: "B5",
     noteType: "Si",
     position: -25,
     shiftLinePosition: 30,
     lines: { above1: true },
   },
-  A4: {
-    name: "A4",
+  A5: {
+    name: "A5",
     noteType: "La",
     position: -20,
     shiftLinePosition: 40,
@@ -120,28 +128,28 @@ export const thirdRangeNotesG: { [key: string]: Note } = {
     lines: { above1: true, above2: true, above3: false },
   },
   ...secondRangeNotesG,
-  Si2: {
-    name: "B2",
+  B3: {
+    name: "B3",
     noteType: "Si",
     position: 45,
     shiftLinePosition: 10,
     lines: { below1: true },
   },
-  La2: {
-    name: "A2",
+  A3: {
+    name: "A3",
     noteType: "La",
     position: 50,
     shiftLinePosition: 20,
     lines: { below1: true, below2: true },
   },
-  Sol2: {
+  G2: {
     name: "G2",
     noteType: "Sol",
     position: 55,
     shiftLinePosition: 30,
     lines: { below1: true, below2: true },
   },
-  Fa2: {
+  F2: {
     name: "F2",
     noteType: "Fa",
     position: 60,
@@ -150,56 +158,315 @@ export const thirdRangeNotesG: { [key: string]: Note } = {
   },
 };
 
+/* Note for the F key: 
+  positions are calculated based on a staff with 5 lines,
+   where each line and space represents a specific pitch.
+   The position values indicate the vertical placement of the notes on the staff.
+   Positive values indicate positions below the staff, while negative values indicate positions above the staff.
+   The shiftLinePosition is used to adjust the note's position when ledger lines are needed.
+*/
+
 // Notes for the first range (F key)
 export const firstRangeNotesF: { [key: string]: Note } = {
-  C2: {
-    name: "C2",
+  C3: {
+    name: "C3",
     noteType: "Do",
     position: -20,
     shiftLinePosition: 40,
     lines: { above1: true },
   },
-  B1: {
-    name: "B1",
+  B3: {
+    name: "B3",
     noteType: "Si",
     position: -15,
     shiftLinePosition: 0,
   },
-  A1: {
-    name: "A1",
+  A3: {
+    name: "A3",
     noteType: "La",
     position: -11,
+    shiftLinePosition: 0,
+  },
+  G2: {
+    name: "G2",
+    noteType: "Sol",
+    position: -5,
+    shiftLinePosition: 0,
+  },
+  F2: {
+    name: "F2",
+    noteType: "Fa",
+    position: 0.1,
+    shiftLinePosition: 0,
+  },
+  E2: {
+    name: "E2",
+    noteType: "Mi",
+    position: 5,
+    shiftLinePosition: 0,
+  },
+  D2: {
+    name: "D2",
+    noteType: "Re",
+    position: 10,
+    shiftLinePosition: 0,
+  },
+  C2: {
+    name: "C2",
+    noteType: "Do",
+    position: 15,
+    shiftLinePosition: 0,
+  },
+};
+
+export const secondRangeNotesF: { [key: string]: Note } = {
+  ...firstRangeNotesF,
+  B2: {
+    name: "B2",
+    noteType: "Si",
+    position: 20,
+    shiftLinePosition: 0,
+  },
+  A2: {
+    name: "A2",
+    noteType: "La",
+    position: 25,
     shiftLinePosition: 0,
   },
   G1: {
     name: "G1",
     noteType: "Sol",
-    position: -5,
+    position: 30,
     shiftLinePosition: 0,
   },
   F1: {
     name: "F1",
     noteType: "Fa",
-    position: 0.1,
+    position: 35,
     shiftLinePosition: 0,
   },
   E1: {
     name: "E1",
     noteType: "Mi",
-    position: 5,
+    position: 40,
     shiftLinePosition: 0,
+    lines: { below1: true },
   },
   D1: {
     name: "D1",
     noteType: "Re",
-    position: 10,
-    shiftLinePosition: 0,
+    position: 45,
+    shiftLinePosition: 10,
+    lines: { below1: true },
   },
   C1: {
     name: "C1",
     noteType: "Do",
+    position: 50,
+    shiftLinePosition: 20,
+    lines: { below1: true, below2: true },
+  },
+};
+
+export const thirdRangeNotesF: { [key: string]: Note } = {
+  G3: {
+    name: "G3",
+    noteType: "Sol",
+    position: -40,
+    shiftLinePosition: 0,
+    lines: { above1: true, above2: true, above3: true },
+  },
+  F3: {
+    name: "F3",
+    noteType: "Fa",
+    position: -35,
+    shiftLinePosition: 10,
+    lines: { above1: true, above2: true, above3: false },
+  },
+  E3: {
+    name: "E3",
+    noteType: "Mi",
+    position: -30,
+    shiftLinePosition: 20,
+    lines: { above1: true, above2: true },
+  },
+  D3: {
+    name: "D3",
+    noteType: "Re",
+    position: -25,
+    shiftLinePosition: 30,
+    lines: { above1: true },
+  },
+  ...secondRangeNotesF,
+  B1: {
+    name: "B1",
+    noteType: "Si",
+    position: 55,
+    shiftLinePosition: 30,
+    lines: { below1: true, below2: true },
+  },
+  A1: {
+    name: "A1",
+    noteType: "La",
+    position: 60,
+    shiftLinePosition: 40,
+    lines: { below1: true, below2: true, below3: true },
+  },
+};
+
+/* Note for the C key: 
+  positions are calculated based on a staff with 5 lines,
+   where each line and space represents a specific pitch.
+   The position values indicate the vertical placement of the notes on the staff.
+   Positive values indicate positions below the staff, while negative values indicate positions above the staff.
+   The shiftLinePosition is used to adjust the note's position when ledger lines are needed.
+*/
+
+// Notes for the first range (C key : Ut)
+export const firstRangeNotesC: { [key: string]: Note } = {
+  B4: {
+    name: "B4",
+    noteType: "Si",
+    position: -20,
+    shiftLinePosition: 40,
+    lines: { above1: true },
+  },
+  A4: {
+    name: "A4",
+    noteType: "La",
+    position: -15,
+    shiftLinePosition: 0,
+  },
+  G3: {
+    name: "G3",
+    noteType: "Sol",
+    position: -11,
+    shiftLinePosition: 0,
+  },
+  F3: {
+    name: "F3",
+    noteType: "Fa",
+    position: -5,
+    shiftLinePosition: 0,
+  },
+  E3: {
+    name: "E3",
+    noteType: "Mi",
+    position: 0.1,
+    shiftLinePosition: 0,
+  },
+  D3: {
+    name: "D3",
+    noteType: "Re",
+    position: 5,
+    shiftLinePosition: 0,
+  },
+  C3: {
+    name: "C3",
+    noteType: "Do",
+    position: 10,
+    shiftLinePosition: 0,
+  },
+  B3: {
+    name: "B3",
+    noteType: "Si",
     position: 15,
     shiftLinePosition: 0,
+  },
+};
+
+export const secondRangeNotesC: { [key: string]: Note } = {
+  ...firstRangeNotesC,
+  A3: {
+    name: "A3",
+    noteType: "La",
+    position: 20,
+    shiftLinePosition: 0,
+  },
+  G2: {
+    name: "G2",
+    noteType: "Sol",
+    position: 25,
+    shiftLinePosition: 0,
+  },
+  F2: {
+    name: "F2",
+    noteType: "Fa",
+    position: 30,
+    shiftLinePosition: 0,
+  },
+  E2: {
+    name: "E2",
+    noteType: "Mi",
+    position: 35,
+    shiftLinePosition: 0,
+  },
+  D2: {
+    name: "D2",
+    noteType: "Re",
+    position: 40,
+    shiftLinePosition: 0,
+    lines: { below1: true },
+  },
+  C2: {
+    name: "C2",
+    noteType: "Do",
+    position: 45,
+    shiftLinePosition: 10,
+    lines: { below1: true },
+  },
+  B2: {
+    name: "B2",
+    noteType: "Si",
+    position: 50,
+    shiftLinePosition: 20,
+    lines: { below1: true, below2: true },
+  },
+};
+
+export const thirdRangeNotesC: { [key: string]: Note } = {
+  F4: {
+    name: "F4",
+    noteType: "Fa",
+    position: -40,
+    shiftLinePosition: 0,
+    lines: { above1: true, above2: true, above3: true },
+  },
+  E4: {
+    name: "E4",
+    noteType: "Mi",
+    position: -35,
+    shiftLinePosition: 10,
+    lines: { above1: true, above2: true, above3: false },
+  },
+  D4: {
+    name: "D4",
+    noteType: "Re",
+    position: -30,
+    shiftLinePosition: 20,
+    lines: { above1: true, above2: true },
+  },
+  C4: {
+    name: "C4",
+    noteType: "Do",
+    position: -25,
+    shiftLinePosition: 30,
+    lines: { above1: true },
+  },
+  ...secondRangeNotesC,
+  A2: {
+    name: "A2",
+    noteType: "La",
+    position: 55,
+    shiftLinePosition: 30,
+    lines: { below1: true, below2: true },
+  },
+  G1: {
+    name: "G1",
+    noteType: "Sol",
+    position: 60,
+    shiftLinePosition: 40,
+    lines: { below1: true, below2: true, below3: true },
   },
 };
 
@@ -209,27 +476,52 @@ export const getRangeNotes = (
 ): { [key: string]: Note } => {
   console.log("Key selected:", key);
 
-  switch (nbRange) {
-    case 1:
+  switch (key + nbRange) {
+    case "G1":
       return firstRangeNotesG;
-    case 2:
+    case "G2":
       return secondRangeNotesG;
-    case 3:
+    case "G3":
       return thirdRangeNotesG;
+    case "F1":
+      return firstRangeNotesF;
+    case "F2":
+      return secondRangeNotesF;
+    case "F3":
+      return thirdRangeNotesF;
+    case "C1":
+      return firstRangeNotesC;
+    case "C2":
+      return secondRangeNotesC;
+    case "C3":
+      return thirdRangeNotesC;
     default:
       return thirdRangeNotesG;
   }
 };
 
 // Get a random note from allNotes
-export const getRandomNote = (nbRange: number): Note => {
-  switch (nbRange) {
-    case 1:
+export const getRandomNote = (nbRange: number, key: string): Note => {
+  switch (key + nbRange) {
+    case "G1":
       return getRandomFromSet(firstRangeNotesG);
-    case 2:
+    case "G2":
       return getRandomFromSet(secondRangeNotesG);
-    case 3:
+    case "G3":
       return getRandomFromSet(thirdRangeNotesG);
+    case "F1":
+      return getRandomFromSet(firstRangeNotesF);
+    case "F2":
+      return getRandomFromSet(secondRangeNotesF);
+    case "F3":
+      return getRandomFromSet(thirdRangeNotesF);
+    case "E1":
+      return getRandomFromSet(firstRangeNotesG);
+    case "E2":
+      return getRandomFromSet(secondRangeNotesG);
+    case "E3":
+      return getRandomFromSet(thirdRangeNotesG);
+
     default:
       return getRandomFromSet(thirdRangeNotesG);
   }

@@ -5,7 +5,7 @@
         <div class="staff">
           <!-- Display the key {{ theKey }}  -->
           <div v-if="theKey === 'F'" class="treble-clef FKey">𝄢</div>
-          <div v-else-if="theKey === 'E'" class="treble-clef EKey">𝄡</div>
+          <div v-else-if="theKey === 'C'" class="treble-clef CKey">𝄡</div>
           <div v-else class="treble-clef GKey">𝄞</div>
 
           <!-- Staff OF 5 lines   -->
@@ -115,10 +115,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { IonCard, IonCardContent } from "@ionic/vue";
-import type { AnimatedNote } from "../types";
+import type { AnimatedNote, Note } from "../types";
 import { getRangeNotes, getRandomNote, getColorNote } from "../data/allNotes";
 import { AudioService } from "../services/AudioService";
-import { key } from "ionicons/icons";
 
 const props = defineProps({
   colorize: {
@@ -139,7 +138,7 @@ const props = defineProps({
   },
 });
 
-const allNotes = computed(() => getRangeNotes(props.nbRange));
+const allNotes = computed(() => getRangeNotes(props.nbRange, props.theKey));
 
 const animatedNotes = ref<AnimatedNote[]>([]);
 const animationId = ref<number | null>(null);
@@ -166,11 +165,21 @@ const addNote = (animatedNote: AnimatedNote) => {
   animatedNotes.value.push(animatedNote);
 };
 
+// Function to sort notes by their position property
+const sortNotesByPosition = (notes: Record<string, Note>) => {
+  return Object.entries(notes)
+    .sort(([, a], [, b]) => b.position - a.position)
+    .reduce((acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
+    }, {} as Record<string, Note>);
+};
+
 // The getRandomNote function is now imported from /data/allNotes.ts
 
 // Function to add a new animated note
 const addAnimatedNote = (position: number | undefined) => {
-  const aNote = getRandomNote(props.nbRange);
+  const aNote = getRandomNote(props.nbRange, props.theKey);
   const newNote: AnimatedNote = {
     id: noteIdCounter.value++,
     x: position ?? staffWidth, // Start all the way to the right (460px)
@@ -254,26 +263,27 @@ const stopAnimation = () => {
 
 // Function for displaying all notes
 const displayAllNotes = () => {
-  const allNotesValue = allNotes.value;
-  const allNoteNames = Object.keys(allNotesValue).reverse();
+  debugger;
+  const sortedNotes = sortNotesByPosition(allNotes.value);
+
   let noteId = 0;
 
   // Erase current notes
   animatedNotes.value = [];
 
   // Display all notes with 30px spacing
-  allNoteNames.forEach((noteName, index) => {
+  for (const noteName in sortedNotes) {
     const newNote: AnimatedNote = {
       id: noteId++,
-      note: allNotesValue[noteName],
-      x: 75 + index * 30, // 30px spacing starting after the key
-      y: allNotesValue[noteName].position,
+      note: sortedNotes[noteName],
+      x: 75 + noteId * 30, // 30px spacing starting after the key
+      y: sortedNotes[noteName].position,
       isHighlighted: false, // no need to highlighted note
       error: false,
     };
 
     animatedNotes.value.push(newNote);
-  });
+  }
 };
 
 async function handleNotePlayed(event: CustomEvent): Promise<void> {
@@ -425,7 +435,7 @@ defineExpose({
   top: 63px;
 }
 
-.EKey {
+.CKey {
   top: 61px;
 }
 /* added lines for notes above/below the staff */
